@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { FlatList,StyleSheet, ActivityIndicator, Text, View } from 'react-native';
+import { FlatList,StyleSheet, ActivityIndicator, Text, View, Button } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -16,6 +16,11 @@ const styles = StyleSheet.create({
     display: 'flex',
 
   },
+  elementsContainer: {
+  flex: 1,
+  backgroundColor: '#1D9DDB'
+
+},
   titleText: {
     fontSize: 30,
     fontWeight: 'bold',
@@ -23,10 +28,18 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginTop: 10,
     color: 'white',
+    flex: 10,
   },
   chitsText: {
     fontSize: 20,
     marginTop: 10,
+  },
+
+  buttonStyle: {
+    marginTop: 10,
+    color: 'white',
+      backgroundColor: '#1D9DDB'
+
   }
   });
 
@@ -67,9 +80,16 @@ class Lab03ex3 extends Component {
      }
      return (
        <React.Fragment>
-         <View style={{ flex: 1, backgroundColor: '#1D9DDB'}}>
-            <Text style={styles.titleText}>Chittr</Text>
+
+<View style={[{flexDirection:'row'}, styles.elementsContainer]}>
+
+            <Text style= {styles.titleText}>Chittr</Text>
+            <Button 
+              title="Log In/Sign"
+              onPress={() => Alert.alert('Simple Button pressed')}/>
          </View>
+
+
          <View style={styles.container}>
           <FlatList
             data={this.state.allChits}
