@@ -3,12 +3,13 @@ import { Text, View, TextInput,ActivityIndicator,StyleSheet, Button, Alert} from
 class LogInScreen extends Component{
   constructor(props){
     super(props);
+    this.navigate = this.props.navigation.navigate;
     this.state = {
 
       email: '',
       passsword: '',
       id: '',
-      token: ''
+      token: '',
 
 
       };
@@ -34,14 +35,26 @@ class LogInScreen extends Component{
    .then(responseJson => {
   // Showing response message coming from server after inserting records.
   Alert.alert(JSON.stringify(responseJson));
-  this.state.id = responseJson.id
+
+
     this.state.token = responseJson.token
+
+
+      this.state.id = responseJson.id
+
+       this.props.navigation.navigate('Home', { token: this.state.token})
+       this.props.navigation.navigate('AccountScreen', {id: this.state.id})
+
 })
    //})
    .catch((error) => {
    console.error(error);
    });
 
+   }
+
+   sendStuff(){
+     this.state.tok = this.state.token
    }
 
   static navigationOptions = {
@@ -74,7 +87,11 @@ class LogInScreen extends Component{
        />
     <Button
        title="Log In"
-       onPress ={() => this.addItem()}/>
+    onPress ={
+          () => this.addItem()
+
+
+       }/>
 
     <Button
        title="Create account"
