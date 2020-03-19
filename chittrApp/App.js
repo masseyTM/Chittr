@@ -5,6 +5,7 @@ import LogInScreen from './screens/LogInScreen';
 import CreateAccountScreen from './screens/CreateAccountScreen';
 import AccountScreen from './screens/AccountScreen';
 import UpdateAccount from './screens/UpdateAccount';
+import SearchResultsScreen from './screens/SearchResultsScreen';
 
 const AppStackNav = createStackNavigator ({
   Home: {
@@ -21,6 +22,9 @@ const AppStackNav = createStackNavigator ({
   },
   UpdateAccount: {
     screen: UpdateAccount
+  },
+  SearchResultsScreen: {
+    screen: SearchResultsScreen
   }
   });
 

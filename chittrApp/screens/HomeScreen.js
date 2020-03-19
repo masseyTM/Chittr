@@ -21,7 +21,8 @@ class HomeScreen extends Component {
       allFollowersChits: [],
       chit_content: '',
       chit_id: '',
-      timestamp: ''
+      timestamp: '',
+      search_user: ''
     }
   }
 
@@ -58,6 +59,8 @@ class HomeScreen extends Component {
                     console.log(error);
                     });
                   }
+
+                
 
                   postChit (token){
                    return fetch("http://10.0.2.2:3333/api/v0.0.5/chits",
@@ -154,8 +157,28 @@ timestamp: 0,
                             <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
                             <Text style= {styles.titleText}>Chittr</Text>
                             <Button
-                            title="Account"
+                            title="My Account"
                             onPress={() =>   this.props.navigation.navigate('AccountScreen', { token: token ,id: idd})
+                            }/>
+
+                            </View>
+
+                            <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
+
+                            <TextInput style={{ height: 40, borderColor: '#1D9DDB', borderWidth: 1, flex: 6}}
+                                maxLength = {141}
+
+                               underlineColorAndroid = "transparent"
+                               placeholder = "Search user name"
+                               placeholderTextColor = "#black"
+                               autoCapitalize = "none"
+                              backgroundColor = "#ffffff"
+
+                               onChangeText={(search_user) => this.setState({search_user})}
+                               value={this.state.search_user}/>
+                            <Button
+                            title="Search"
+                            onPress={() =>   this.props.navigation.navigate('SearchResultsScreen', { token: token ,id: idd, search_user: this.state.search_user})
                             }/>
 
                             </View>
@@ -165,8 +188,18 @@ timestamp: 0,
                             <Text>{token}</Text>
                             <FlatList
                             data={this.state.allFollowersChits}
-                            renderItem={({item}) => <Text style={styles.chitsText}>{item.user.given_name} {"\n"}{item.chit_content} {"\n"}{item.timestamp}</Text>}
+                            renderItem={({item}) => <Text style={styles.chitsText}>{item.user.given_name} {item.user.family_name} {"\n"}{item.chit_content} {"\n"}{item.timestamp}</Text>}
                             keyExtractor={({id}, index) => id}
+                            />
+                            </View>
+
+
+
+                            <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
+                              <Text style = { styles.characterCount}>{('Characters remaining - ' +( 141 - this.state.chit_content.length))}</Text>
+                            <Button
+                            title="Post Chit"
+                            onPress={() =>   this.postChit(token)}
                             />
                             </View>
 
@@ -176,24 +209,16 @@ timestamp: 0,
                                 maxLength = {141}
                                underlineColorAndroid = "transparent"
                                placeholder = "Type chit here"
-                               placeholderTextColor = "#ffffff"
+                               placeholderTextColor = "#black"
                                autoCapitalize = "none"
-                              backgroundColor = "#d6d6d6"
-                          
+                              backgroundColor = "#ffffff"
+
                                onChangeText={(chit_content) => this.setState({chit_content})}
                                value={this.state.chit_content}
                                />
 
                             </View>
 
-                            <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
-                              <Text style = { styles.characterCount}>{('Characters remaining - ' +( 141 - this.state.chit_content.length))}</Text>
-                            <Button
-                            title="Post Chit"
-                            onPress={() =>   this.postChit(token)}
-                            />
-
-                            </View>
 
                             </React.Fragment>
                             );
