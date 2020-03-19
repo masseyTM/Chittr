@@ -79,7 +79,15 @@ this.searchUser(this.props.navigation.getParam('search_user',''));
 
       <FlatList
       data={this.state.userSearch}
-      renderItem={({item}) => <Text >{item.given_name} {item.family_name} </Text>}
+      renderItem={({item}) =>
+      <View>
+       <Text >{item.given_name} {item.family_name} </Text>
+
+       <Button
+       title="View Profile"
+       onPress={() =>    this.props.navigation.navigate('AccountScreen', { token: this.state.token ,user_id: item.user_id})}
+       />
+      </View>}
       keyExtractor={({id}, index) => id}
       />
 

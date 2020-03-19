@@ -59,13 +59,20 @@ class AccountScreen extends Component{
      }
 
 
+     componentDidMount(){
+   this.getUserDetails(this.props.navigation.getParam('user_id',''));
+     }
+
+
+
 
 
  render(){
    const token =  this.props.navigation.getParam('token', '');
-   const idd = this.props.navigation.getParam('id','')
-
+   const idd = this.props.navigation.getParam('id','');
+  const user_id = this.props.navigation.getParam('user_id','');
    this.getUserDetails(idd);
+
 
    return (
      <React.Fragment>
@@ -79,17 +86,34 @@ class AccountScreen extends Component{
             onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
        </View>
 
+       <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
+
+       <Button
+         title="Followers"
+         onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+
+       <Button
+         title="Following"
+         onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+    </View>
+
+
 
        <View style={styles.container}>
        <Text>{this.state.userDetails.given_name}</Text>
        <Text>{this.state.userDetails.family_name}</Text>
        <Text>{this.state.userDetails.email}</Text>
        <Text>{this.state.userDetails.password}</Text>
+</View>
 
 
+
+<View>
        <Button
          title="Log Out"
          onPress={() => this.logOut(token)}/>
+
+
 
        </View>
      </React.Fragment>
@@ -105,7 +129,7 @@ class AccountScreen extends Component{
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#E8E8E8',
-    flex: 10,
+    flex: 7,
     display: 'flex',
 
   },
