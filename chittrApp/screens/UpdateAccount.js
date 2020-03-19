@@ -11,7 +11,7 @@ class UpdateAccount extends Component{
       password: '',
       id: '',
       token: '',
-      userDetails: [],
+      userDetails: []
     };
   }
 

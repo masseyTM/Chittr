@@ -73,7 +73,7 @@ class AccountScreen extends Component{
 
           <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
 
-          <Text style= {styles.titleText}>User details</Text>
+          <Text style= {styles.titleText}>My Account</Text>
           <Button
             title="Update Account"
             onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
@@ -81,12 +81,9 @@ class AccountScreen extends Component{
 
 
        <View style={styles.container}>
-       <Text>My Account </Text>
-       <Text>{idd}</Text>
-         <Text>{this.state.userDetails.given_name}</Text>
-         <Text>{this.state.userDetails.family_name}</Text>
-         <Text>{this.state.userDetails.email}</Text>
-
+       <Text>{this.state.userDetails.given_name}</Text>
+       <Text>{this.state.userDetails.family_name}</Text>
+       <Text>{this.state.userDetails.email}</Text>
        <Text>{this.state.userDetails.password}</Text>
 
 

@@ -19,11 +19,11 @@ class HomeScreen extends Component {
       isLoading: true,
       allChits: [],
       allFollowersChits: [],
-
+      chit_content: '',
+      chit_id: '',
+      timestamp: ''
     }
   }
-
-
 
   getAllChits(){
     return fetch('http://10.0.2.2:3333/api/v0.0.5/chits')
@@ -40,7 +40,6 @@ class HomeScreen extends Component {
         }
 
         getFollowersChits(token){
-
           return fetch("http://10.0.2.2:3333/api/v0.0.5/chits",
           {
             method:'GET',
@@ -59,6 +58,39 @@ class HomeScreen extends Component {
                     console.log(error);
                     });
                   }
+
+                  postChit (token){
+                   return fetch("http://10.0.2.2:3333/api/v0.0.5/chits",
+                   {
+                   method: 'POST',
+                   headers: {
+                     "Content-Type":"application/json",
+                     "X-Authorization": token
+                  },
+                   body: JSON.stringify({
+
+chit_id : 0,
+timestamp: 0,
+                      chit_content : this.state.chit_content
+                   // given_name: this.state.given_name,
+                   // family_name: this.state.family_name,
+                   // email: this.state.email,
+                   // password: this.state.password
+                   })
+                   })
+                   .then(response =>  {
+                  // Showing response message coming from server after inserting records.
+
+                   this.props.navigation.navigate('Home', { token: token})
+
+
+                })
+                   //})
+                   .catch((error) => {
+                   console.error(error);
+                   });
+
+                   }
 
 
                   componentDidMount(){
@@ -140,20 +172,29 @@ class HomeScreen extends Component {
 
 
                             <View style={styles.flex2}>
-                            <TextInput style={{ height: 40, marginTop: 20, borderColor: 'gray', borderWidth: 1 }}
+                            <TextInput style={{ height: 40, borderColor: '#1D9DDB', borderWidth: 1 }}
+                                maxLength = {141}
                                underlineColorAndroid = "transparent"
-                               placeholder = "Enter email"
-                               placeholderTextColor = "#9a73ef"
+                               placeholder = "Type chit here"
+                               placeholderTextColor = "#ffffff"
                                autoCapitalize = "none"
-
-                               onChangeText={(email) => this.setState({email})}
-                               value={this.state.email}
+                              backgroundColor = "#d6d6d6"
+                          
+                               onChangeText={(chit_content) => this.setState({chit_content})}
+                               value={this.state.chit_content}
                                />
+
+                            </View>
+
+                            <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
+                              <Text style = { styles.characterCount}>{('Characters remaining - ' +( 141 - this.state.chit_content.length))}</Text>
                             <Button
                             title="Post Chit"
-                            onPress={() =>   this.props.navigation.navigate('AccountScreen', { token: token ,id: idd})
-                            }/>
+                            onPress={() =>   this.postChit(token)}
+                            />
+
                             </View>
+
                             </React.Fragment>
                             );
                           }
@@ -169,7 +210,7 @@ class HomeScreen extends Component {
                       const styles = StyleSheet.create({
                         container: {
                           backgroundColor: '#E8E8E8',
-                          flex: 10,
+                          flex: 12,
                           display: 'flex',
 
                           },
@@ -179,9 +220,17 @@ class HomeScreen extends Component {
 
                             },
                             flex2: {
-                              flex: 2,
-                              backgroundColor: '#1D9DDB'
+                              flex: 1,
+                              backgroundColor: '#1D9DDB',
 
+
+
+                            },
+
+                            characterCount:{
+                              flex: 19,
+                              marginTop: 5,
+                              color: 'white'
                             },
                             titleText: {
                               fontSize: 30,
