@@ -7,7 +7,7 @@ class LogInScreen extends Component{
     this.state = {
 
       email: '',
-      passsword: '',
+      password: '',
       id: '',
       token: '',
 
@@ -42,8 +42,8 @@ class LogInScreen extends Component{
 
       this.state.id = responseJson.id
 
-       this.props.navigation.navigate('Home', { token: this.state.token})
-       this.props.navigation.navigate('AccountScreen', {id: this.state.id})
+       this.props.navigation.navigate('Home', { token: this.state.token ,id: this.state.id})
+  //     this.props.navigation.navigate('Home',{id: this.state.id})
 
 })
    //})

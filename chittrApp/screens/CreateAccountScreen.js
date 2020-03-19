@@ -8,7 +8,7 @@ class CreateAccountScreen extends Component{
       given_name: '',
       family_name: '',
       email: '',
-      passsword: '',
+      password: '',
       id: '',
       token: ''
 

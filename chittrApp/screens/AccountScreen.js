@@ -9,10 +9,11 @@ class AccountScreen extends Component{
       given_name: '',
       family_name: '',
       email: '',
-      passsword: '',
+      password: '',
       id: '',
       token: '',
-      userDetails: []
+      userDetails: [],
+      chits :[]
 
       };
   }
@@ -25,12 +26,37 @@ class AccountScreen extends Component{
         this.setState({
           isLoading: false,
           userDetails: responseJson
+
           });
     })
     .catch((error) =>{
       console.log(error);
       });
     }
+
+    logOut (token){
+     return fetch("http://10.0.2.2:3333/api/v0.0.5/logout",
+     {
+     method: 'POST',
+     headers: {
+       "Content-Type":"application/json",
+       "X-Authorization": token}
+
+     })
+     .then(response =>  {
+    // Showing response message coming from server after inserting records.
+    Alert.alert(JSON.stringify(response));
+         this.props.navigation.navigate('Home', { token: ''})
+
+
+  //{() => this.props.navigation.navigate('Home')}
+  })
+     //})
+     .catch((error) => {
+     console.error(error);
+     });
+
+     }
 
 
 
@@ -41,49 +67,38 @@ class AccountScreen extends Component{
 
    this.getUserDetails(idd);
 
-
- return(
- <View>
-   <Text>My Account </Text>
-<Text>{idd}</Text>
-     <Text>{this.state.userDetails.given_name}</Text>
-     <Text>{this.state.userDetails.family_name}</Text>
-     <Text>{this.state.userDetails.email}</Text>
+   return (
+     <React.Fragment>
 
 
-   <TextInput style={{ height: 40, marginTop: 20, borderColor: 'gray', borderWidth: 1 }}
-      underlineColorAndroid = "transparent"
-      placeholder = "Enter email"
-      placeholderTextColor = "#9a73ef"
-      autoCapitalize = "none"
+          <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
 
-      onChangeText={(email) => this.setState({email})}
-      value={this.state.email}
-      />
-    <TextInput style={{ height: 40, marginTop: 20,marginBottom: 50, borderColor: 'gray', borderWidth: 1 }}
-       underlineColorAndroid = "transparent"
-       placeholder = "Enter password"
-       placeholderTextColor = "#9a73ef"
-       autoCapitalize = "none"
-
-       onChangeText={(password) => this.setState({password})}
-       value={this.state.password}
-       />
-    <Button
-       title="Log In"
-    onPress ={
-          () => this.addItem()
+          <Text style= {styles.titleText}>User details</Text>
+          <Button
+            title="Update Account"
+            onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+       </View>
 
 
-       }/>
+       <View style={styles.container}>
+       <Text>My Account </Text>
+       <Text>{idd}</Text>
+         <Text>{this.state.userDetails.given_name}</Text>
+         <Text>{this.state.userDetails.family_name}</Text>
+         <Text>{this.state.userDetails.email}</Text>
 
-    <Button
-       title="Create account"
-       onPress={() => this.props.navigation.navigate('CreateAccount')}/>
+       <Text>{this.state.userDetails.password}</Text>
 
 
- </View>
- );
+       <Button
+         title="Log Out"
+         onPress={() => this.logOut(token)}/>
+
+       </View>
+     </React.Fragment>
+     );
+
+
  }
 
 
