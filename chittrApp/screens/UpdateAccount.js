@@ -46,12 +46,12 @@ class UpdateAccount extends Component{
 
   render(){
     const token =  this.props.navigation.getParam('token', '');
-    const idd = this.props.navigation.getParam('idd','')
+    const my_id = this.props.navigation.getParam('my_id','')
     const name = this.props.navigation.getParam('name','')
     return(
       <View>
       <Text>Please make any changes in the details below to update your Chittr account</Text>
-      <Text>{idd}</Text>
+      <Text>{my_id}</Text>
       <Text>{token}</Text>
       <Text>{name}</Text>
       <Text>{this.state.userDetails.family_name}</Text>
@@ -95,7 +95,7 @@ class UpdateAccount extends Component{
 
       <Button
       title="Update account"
-      onPress={() => this.updateUserDetails(idd, token)}/>
+      onPress={() => this.updateUserDetails(my_id, token)}/>
       </View>
     );
   }

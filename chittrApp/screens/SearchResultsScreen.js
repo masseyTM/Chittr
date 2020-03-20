@@ -85,7 +85,7 @@ this.searchUser(this.props.navigation.getParam('search_user',''));
 
        <Button
        title="View Profile"
-       onPress={() =>    this.props.navigation.navigate('AccountScreen', { token: this.state.token ,user_id: item.user_id})}
+       onPress={() =>    this.props.navigation.navigate('AccountScreen', { token: token ,user_id: item.user_id})}
        />
       </View>}
       keyExtractor={({id}, index) => id}

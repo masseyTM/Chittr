@@ -39,7 +39,7 @@ class CreateAccountScreen extends Component{
   // Showing response message coming from server after inserting records.
   Alert.alert(JSON.stringify(responseJson));
 
-{() => this.props.navigation.navigate('LogIn')}
+this.props.navigation.navigate('LogIn')
 })
    //})
    .catch((error) => {

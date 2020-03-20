@@ -20,40 +20,44 @@ class AccountScreen extends Component{
     };
   }
 
-  getFollowers(id){
-    return fetch('http://10.0.2.2:3333/api/v0.0.5/user/'+id+'/followers')
-    .then((response) => response.json())
-    .then((responseJson) => {
 
-      this.setState({
-        isLoading: false,
-        followersDetails: responseJson
 
-      });
-    })
+
+
+  followUser(id, token){
+    return fetch('http://10.0.2.2:3333/api/v0.0.5/user/'+id+'/follow',
+  {
+    method: 'POST',
+    headers: {
+      "Content-Type":"application/json",
+      "X-Authorization": token
+    },
+  })
+  .then((response) => {
+    Alert.alert(JSON.stringify("Following"))
+  })
     .catch((error) =>{
-      console.log(error);
+      console.error(error);
     });
   }
 
-  getFollowing(id){
-    return fetch('http://10.0.2.2:3333/api/v0.0.5/user/'+id+'/followers')
-    .then((response) => response.json())
-    .then((responseJson) => {
+  unFollowUser(id, token){
+    return fetch('http://10.0.2.2:3333/api/v0.0.5/user/'+id+'/follow',
+  {
+    method: 'DELETE',
+    headers: {
+      "Content-Type":"application/json",
+      "X-Authorization": token
+    },
+  })
 
-      this.setState({
-        isLoading: false,
-        followingDetails: responseJson
+  .then((response) => {
+    Alert.alert(JSON.stringify("Unfollowed"))
+  })
 
-      });
-
-    this.props.navigation.navigate('FollowersScreen',  { followingDetails: this.state.followingDetails ,id: id})
-
-    })
-    .catch((error) =>{
-      console.log(error);
-    });
   }
+
+
 
 
 
@@ -124,16 +128,17 @@ class AccountScreen extends Component{
           <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
 
           <Text style= {styles.titleText}>My Account</Text>
+
           <Button
           title="Update Account"
-          onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+          onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,my_id: my_id, name: this.state.userDetails.given_name})}/>
           </View>
 
           <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
 
           <Button
           title="Followers"
-          onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+          onPress={() => this.props.navigation.navigate('FollowersScreen',  { token: token ,my_id: my_id, name: this.state.userDetails.given_name})}/>
 
           <Button
           title="Following"
@@ -146,6 +151,7 @@ class AccountScreen extends Component{
           <Text>{this.state.userDetails.given_name}</Text>
           <Text>{this.state.userDetails.family_name}</Text>
           <Text>{this.state.userDetails.email}</Text>
+          <Text>{token}</Text>
           <Text>{this.state.userDetails.password}</Text>
           </View>
 
@@ -171,33 +177,34 @@ class AccountScreen extends Component{
 
         <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
 
-        <Text style= {styles.titleText}>Someeone else</Text>
+        <Text style= {styles.titleText}>Someone else</Text>
         </View>
 
         <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
 
         <Button
         title="Follow"
-        onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+        onPress={() => this.followUser(other_user_id, token)}/>
 
         <Button
         title="Unfollow"
-        onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+        onPress={() => this.unFollowUser(other_user_id, token)}/>
 
 
         <Button
         title="Followers"
-        onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+        onPress={() => this.props.navigation.navigate('FollowersScreen',  { token: token ,other_user_id: other_user_id} )}/>
 
         <Button
         title="Following"
-        onPress={() => this.props.navigation.navigate('UpdateAccount',  { token: token ,idd: idd, name: this.state.userDetails.given_name})}/>
+        onPress={() =>  this.props.navigation.navigate('FollowingScreen',  { token: token ,other_user_id: other_user_id} )}/>
         </View>
 
 
 
         <View style={styles.container}>
         <Text>{this.state.userDetails.given_name}</Text>
+        <Text>{token}</Text>
         <Text>{this.state.userDetails.family_name}</Text>
         <Text>{this.state.userDetails.email}</Text>
         <Text>{this.state.userDetails.password}</Text>

@@ -51,11 +51,11 @@ class FollowingScreen extends Component{
 
   render(){
 
-
+  const token =  this.props.navigation.getParam('token', '');
 
     return(
       <View>
-      <Text>Following</Text>
+      <Text>Who you are following</Text>
       <FlatList
       data={this.state.followingDetails}
       renderItem={({item}) =>
@@ -64,7 +64,7 @@ class FollowingScreen extends Component{
 
        <Button
        title="View Profile"
-       onPress={() =>    this.props.navigation.navigate('AccountScreen', { token: this.state.token ,user_id: item.user_id})}
+       onPress={() =>    this.props.navigation.navigate('AccountScreen', { token: token ,user_id: item.user_id})}
        />
       </View>}
       keyExtractor={({id}, index) => id}
