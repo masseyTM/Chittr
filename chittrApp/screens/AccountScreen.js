@@ -110,7 +110,7 @@ class AccountScreen extends Component{
       })
       .then(response =>  {
         // Showing response message coming from server after inserting records.
-        Alert.alert(JSON.stringify(response));
+
         this.props.navigation.navigate('Home', { token: ''})
 
 
@@ -192,7 +192,7 @@ class AccountScreen extends Component{
            <Text >{item.chit_content} {item.timestamp} </Text>
 
            <Image
-                     style={{width: 50, height: 50,}}
+                     style={{width: 50, height: 50, }}
                      source={{uri : "http://10.0.2.2:3333/api/v0.0.5/chits/"+item.chit_id+"/photo" }}
                    />
            <Button
@@ -256,7 +256,7 @@ class AccountScreen extends Component{
         <View style={styles.container}>
 
         <Text>{this.state.userDetails.given_name}</Text>
-        <Text>{token}</Text>
+
         <Text>{this.state.userDetails.family_name}</Text>
         <Text>{this.state.userDetails.email}</Text>
         <Text>{this.state.userDetails.password}</Text>
@@ -278,13 +278,15 @@ class AccountScreen extends Component{
   const styles = StyleSheet.create({
     container: {
       backgroundColor: '#E8E8E8',
-      flex: 7,
+      flex: 6,
       display: 'flex',
+      fontSize: 15
+
 
     },
     elementsContainer: {
       flex: 1,
-      backgroundColor: '#1D9DDB'
+      backgroundColor: '#96B1C1'
 
     },
     titleText: {
@@ -304,7 +306,7 @@ class AccountScreen extends Component{
     buttonStyle: {
       marginTop: 10,
       color: 'white',
-      backgroundColor: '#1D9DDB'
+      backgroundColor: '#96B1C1'
 
     }
   });

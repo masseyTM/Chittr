@@ -34,7 +34,7 @@ class LogInScreen extends Component{
     .then(response => response.json())
     .then(responseJson => {
       // Showing response message coming from server after inserting records.
-      Alert.alert(JSON.stringify(responseJson));
+    
       this.state.token = responseJson.token
       this.state.id = responseJson.id
       this.props.navigation.navigate('Home', { token: this.state.token ,id: this.state.id})
@@ -42,7 +42,7 @@ class LogInScreen extends Component{
     })
     //})
     .catch((error) => {
-      Alert.alert("Invalid email and/or password"); 
+      Alert.alert("Invalid email and/or password");
     });
 
   }

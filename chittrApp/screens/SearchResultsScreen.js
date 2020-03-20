@@ -73,9 +73,8 @@ this.searchUser(this.props.navigation.getParam('search_user',''));
       <View>
       <Text>Search Results</Text>
       <Text>{this.state.userSearch.given_name}</Text>
-      <Text>{token}</Text>
-      <Text>{search_user}</Text>
 
+    
 
       <FlatList
       data={this.state.userSearch}

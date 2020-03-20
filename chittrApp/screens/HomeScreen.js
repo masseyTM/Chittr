@@ -10,6 +10,7 @@
 import React, { Component } from 'react';
 
 import { FlatList,StyleSheet, ActivityIndicator, Text, View, Button,Image, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 class HomeScreen extends Component {
@@ -22,9 +23,30 @@ class HomeScreen extends Component {
       chit_content: '',
       chit_id: '',
       timestamp: '',
-      search_user: ''
+      search_user: '',
+      draftChit: ''
     }
   }
+
+//only started to try async for the extension class
+  storeChit = async () => {
+    try {
+      await AsyncStorage.setItem('@storage_Key', this.state.chit_content)
+    } catch (e) {
+
+    }
+  }
+
+  getStoredChit = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@storage_Key')
+    if(value !== null) {
+      // value previously stored
+    }
+  } catch(e) {
+    // error reading value
+  }
+}
 
   getAllChits(){
     return fetch('http://10.0.2.2:3333/api/v0.0.5/chits')
@@ -40,6 +62,8 @@ class HomeScreen extends Component {
           });
         }
 
+//pass through login token to only show people you follow
+// passed with header
         getFollowersChits(token){
           return fetch("http://10.0.2.2:3333/api/v0.0.5/chits",
           {
@@ -60,6 +84,9 @@ class HomeScreen extends Component {
                     });
                   }
 
+
+//take user input from text entry, there is a limit set on text input to not allow over 141 Characters
+// also a countdown has been placed for the user to know when limit is close
                   postChit (token){
                     return fetch("http://10.0.2.2:3333/api/v0.0.5/chits",
                     {
@@ -73,27 +100,17 @@ class HomeScreen extends Component {
                           chit_id : 0,
                           timestamp: 0,
                           chit_content : this.state.chit_content
-                          // given_name: this.state.given_name,
-                          // family_name: this.state.family_name,
-                          // email: this.state.email,
-                          // password: this.state.password
+
                           })
                           })
                           .then(response =>  {
                             // Showing response message coming from server after inserting records.
-
                             this.props.navigation.navigate('Home', { token: token})
-
-
                             })
-                            //})
                             .catch((error) => {
                               console.error(error);
                               });
-
                             }
-
-
                             componentDidMount(){
                               this.getAllChits(),
                               this.getFollowersChits(this.props.navigation.getParam('token', ''));
@@ -101,6 +118,7 @@ class HomeScreen extends Component {
 
 
 
+//remove default nav bar at top of screen
                             static navigationOptions = {
                               header: null
                             }
@@ -133,7 +151,6 @@ class HomeScreen extends Component {
                                     title="Log In/Sign"
                                     onPress={() => this.props.navigation.navigate('LogIn')}/>
                                     </View>
-
                                     <View style={styles.container}>
                                     <FlatList
                                     data={this.state.allChits}
@@ -146,9 +163,10 @@ class HomeScreen extends Component {
                                   }
 
 
+
                                   else {
                                     this.getFollowersChits(this.props.navigation.getParam('token', ''));
-                                    //When user logged in
+
                                     return(
                                       <React.Fragment>
                                       <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
@@ -206,7 +224,7 @@ class HomeScreen extends Component {
                                       <Text style = { styles.characterCount}>{('Characters remaining - ' +( 141 - this.state.chit_content.length))}</Text>
                                       <Button
                                       title="Save draft"
-                                      onPress={() =>   this.postChit(token)}
+                                      onPress={() => asy }
                                       />
                                       <Button
                                       title="Post chit"
@@ -252,12 +270,12 @@ class HomeScreen extends Component {
                                     },
                                     elementsContainer: {
                                       flex: 1,
-                                      backgroundColor: '#1D9DDB'
+                                      backgroundColor: '#96B1C1'
 
                                       },
                                       flex2: {
                                         flex: 1,
-                                        backgroundColor: '#1D9DDB',
+                                        backgroundColor: '#96B1C1',
 
 
 
