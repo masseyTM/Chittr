@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput,ActivityIndicator,StyleSheet,FlatList, Button, Alert} from 'react-native';
+import { Text,Image, View, TextInput,ActivityIndicator,StyleSheet,FlatList, Button, Alert} from 'react-native';
 class AccountScreen extends Component{
   constructor(props){
     super(props);
@@ -15,7 +15,9 @@ class AccountScreen extends Component{
       userDetails: [],
       followersDetails: [],
       followingDetails: [],
-      chits :[]
+      chits :[],
+      photo: ''
+
 
     };
   }
@@ -77,6 +79,26 @@ class AccountScreen extends Component{
     });
   }
 
+
+  uploadProfilePic(data, token) {
+    return fetch("http://10.0.2.2:3333/api/v0.0.5/user/photo",
+    {
+    method: 'POST',
+    headers: {
+     "Content-Type": "image/jpeg",
+     "X-Authorization": token,
+   },
+    body:data
+  })
+  .then(response => {
+    Alert.alert("Picture uploaded");
+  })
+  .catch((error) => {
+    Alert.alert("Upload unsuccessful");
+  });
+ }
+
+
   logOut (token){
     return fetch("http://10.0.2.2:3333/api/v0.0.5/logout",
     {
@@ -104,7 +126,7 @@ class AccountScreen extends Component{
 
     componentDidMount(){
       this.getUserDetails(this.props.navigation.getParam('user_id',''));
-    }
+}
 
 
 
@@ -120,6 +142,7 @@ class AccountScreen extends Component{
       // user account
       if (other_user_id === ""){
             this.getUserDetails(my_id);
+
 
         return (
           <React.Fragment>
@@ -140,6 +163,7 @@ class AccountScreen extends Component{
           title="Followers"
           onPress={() => this.props.navigation.navigate('FollowersScreen',  { token: token ,my_id: my_id, name: this.state.userDetails.given_name})}/>
 
+
           <Button
           title="Following"
           onPress={() => this.props.navigation.navigate('FollowingScreen',  { token: token ,my_id: my_id} )}/>
@@ -148,6 +172,10 @@ class AccountScreen extends Component{
 
 
           <View style={styles.container}>
+          <Image
+                    style={{width: 70, height: 70,}}
+                    source={{uri : "http://10.0.2.2:3333/api/v0.0.5/user/"+my_id+"/photo" }}
+                  />
           <Text>{this.state.userDetails.given_name}</Text>
           <Text>{this.state.userDetails.family_name}</Text>
           <Text>{this.state.userDetails.email}</Text>
@@ -203,6 +231,7 @@ class AccountScreen extends Component{
 
 
         <View style={styles.container}>
+
         <Text>{this.state.userDetails.given_name}</Text>
         <Text>{token}</Text>
         <Text>{this.state.userDetails.family_name}</Text>

@@ -57,8 +57,7 @@ class LogInScreen extends Component{
      this.state.tok = this.state.token
    }
 
-  static navigationOptions = {
-   header: null}
+
  render(){
  return(
  <View>
@@ -77,6 +76,7 @@ class LogInScreen extends Component{
       value={this.state.email}
       />
     <TextInput style={{ height: 40, marginTop: 20,marginBottom: 50, borderColor: 'gray', borderWidth: 1 }}
+      secureTextEntry={true}
        underlineColorAndroid = "transparent"
        placeholder = "Enter password"
        placeholderTextColor = "#9a73ef"

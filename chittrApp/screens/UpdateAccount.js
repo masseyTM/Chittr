@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput,ActivityIndicator,StyleSheet, Button, Alert} from 'react-native';
+import {RNCamera} from 'react-native-camera';
+import { Text, View, TextInput,ActivityIndicator,StyleSheet, Button, TouchableOpacity, Alert} from 'react-native';
 class UpdateAccount extends Component{
   constructor(props){
     super(props);
@@ -39,6 +40,9 @@ class UpdateAccount extends Component{
     });
   }
 
+
+
+
 //
 // onLoad = () => {
 //   this.props.navigation.addListener('didFocus', () => this.setState(name: this.props.navigation.getParam('name','') ))
@@ -51,12 +55,7 @@ class UpdateAccount extends Component{
     return(
       <View>
       <Text>Please make any changes in the details below to update your Chittr account</Text>
-      <Text>{my_id}</Text>
-      <Text>{token}</Text>
-      <Text>{name}</Text>
-      <Text>{this.state.userDetails.family_name}</Text>
-      <Text>{this.state.userDetails.email}</Text>
-      <Text>{this.state.userDetails.password}</Text>
+
 
       <TextInput style={{ height: 40, marginTop: 20, borderColor: 'gray', borderWidth: 1 }}
       underlineColorAndroid = "transparent"
@@ -85,6 +84,7 @@ class UpdateAccount extends Component{
       value={this.state.email}
       />
       <TextInput style={{ height: 40, marginTop: 20,marginBottom: 50, borderColor: 'gray', borderWidth: 1 }}
+secureTextEntry={true}
       underlineColorAndroid = "transparent"
       placeholder = "Enter password"
       placeholderTextColor = "#9a73ef"
@@ -96,11 +96,18 @@ class UpdateAccount extends Component{
       <Button
       title="Update account"
       onPress={() => this.updateUserDetails(my_id, token)}/>
+
+      <Button
+      title="Take profile picture"
+      onPress={() => this.props.navigation.navigate('ProfilePicScreen', {token: token})}/>
       </View>
     );
+
+
+
   }
-
-
-
 }
+
+
+
 export default UpdateAccount;

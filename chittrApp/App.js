@@ -8,6 +8,7 @@ import UpdateAccount from './screens/UpdateAccount';
 import SearchResultsScreen from './screens/SearchResultsScreen';
 import FollowersScreen from './screens/FollowersScreen';
 import FollowingScreen from './screens/FollowingScreen';
+import ProfilePicScreen from './screens/ProfilePicScreen';
 
 const AppStackNav = createStackNavigator ({
   Home: {
@@ -33,6 +34,9 @@ const AppStackNav = createStackNavigator ({
   },
   FollowingScreen: {
     screen: FollowingScreen
+  },
+  ProfilePicScreen: {
+    screen: ProfilePicScreen
   }
   });
 
