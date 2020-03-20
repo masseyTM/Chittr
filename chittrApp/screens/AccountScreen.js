@@ -173,14 +173,37 @@ class AccountScreen extends Component{
 
           <View style={styles.container}>
           <Image
-                    style={{width: 70, height: 70,}}
+                    style={{width: 150, height: 150,}}
                     source={{uri : "http://10.0.2.2:3333/api/v0.0.5/user/"+my_id+"/photo" }}
                   />
           <Text>{this.state.userDetails.given_name}</Text>
           <Text>{this.state.userDetails.family_name}</Text>
           <Text>{this.state.userDetails.email}</Text>
-          <Text>{token}</Text>
-          <Text>{this.state.userDetails.password}</Text>
+
+          </View>
+
+          <View style={styles.container}>
+
+
+          <FlatList
+          data={this.state.userDetails.recent_chits}
+          renderItem={({item}) =>
+          <View>
+           <Text >{item.chit_content} {item.timestamp} </Text>
+
+           <Image
+                     style={{width: 50, height: 50,}}
+                     source={{uri : "http://10.0.2.2:3333/api/v0.0.5/chits/"+item.chit_id+"/photo" }}
+                   />
+           <Button
+           title="Add photo"
+           onPress={() =>    this.props.navigation.navigate('ChitPhotoScreen', { token: token ,user_id: item.user_id, chit_id: item.chit_id})}
+           />
+          </View>}
+          keyExtractor={({id}, index) => id}
+          />
+
+
           </View>
 
 

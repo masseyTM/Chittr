@@ -9,6 +9,7 @@ import SearchResultsScreen from './screens/SearchResultsScreen';
 import FollowersScreen from './screens/FollowersScreen';
 import FollowingScreen from './screens/FollowingScreen';
 import ProfilePicScreen from './screens/ProfilePicScreen';
+import ChitPhotoScreen from './screens/ChitPhotoScreen';
 
 const AppStackNav = createStackNavigator ({
   Home: {
@@ -37,6 +38,9 @@ const AppStackNav = createStackNavigator ({
   },
   ProfilePicScreen: {
     screen: ProfilePicScreen
+  },
+  ChitPhotoScreen: {
+    screen: ChitPhotoScreen
   }
   });
 

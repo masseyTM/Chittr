@@ -9,7 +9,7 @@
 
 import React, { Component } from 'react';
 
-import { FlatList,StyleSheet, ActivityIndicator, Text, View, Button, TextInput } from 'react-native';
+import { FlatList,StyleSheet, ActivityIndicator, Text, View, Button,Image, TextInput } from 'react-native';
 
 
 class HomeScreen extends Component {
@@ -60,8 +60,6 @@ class HomeScreen extends Component {
                     });
                   }
 
-
-
                   postChit (token){
                     return fetch("http://10.0.2.2:3333/api/v0.0.5/chits",
                     {
@@ -98,7 +96,7 @@ class HomeScreen extends Component {
 
                             componentDidMount(){
                               this.getAllChits(),
-                              this.getFollowersChits();
+                              this.getFollowersChits(this.props.navigation.getParam('token', ''));
                             }
 
 
@@ -113,8 +111,6 @@ class HomeScreen extends Component {
                               const token =  this.props.navigation.getParam('token', '')
                               const idd =  this.props.navigation.getParam('id', '')
 
-
-                              this.getFollowersChits(token);
 
                               //Loading bar to show user something is happening
                               if(this.state.isLoading){
@@ -141,7 +137,7 @@ class HomeScreen extends Component {
                                     <View style={styles.container}>
                                     <FlatList
                                     data={this.state.allChits}
-                                    renderItem={({item}) => <Text style={styles.chitsText}>{item.user.given_name} {"\n"}{item.chit_content} {"\n"}{item.timestamp}</Text>}
+                                    renderItem={({item}) => <Text style={styles.chitsText}>{item.user.given_name} {"\n"}{item.chit_content}</Text>}
                                     keyExtractor={({id}, index) => id}
                                     />
                                     </View>
@@ -151,6 +147,7 @@ class HomeScreen extends Component {
 
 
                                   else {
+                                    this.getFollowersChits(this.props.navigation.getParam('token', ''));
                                     //When user logged in
                                     return(
                                       <React.Fragment>
@@ -181,14 +178,24 @@ class HomeScreen extends Component {
                                       onPress={() =>   this.props.navigation.navigate('SearchResultsScreen', { token: token ,id: idd, search_user: this.state.search_user})
                                       }/>
 
+
                                       </View>
+
+
+
+
                                       <View style={styles.container}>
                                       <Text>Tweets from people you follow</Text>
-                                      <Text>{idd}</Text>
-                                      <Text>{token}</Text>
                                       <FlatList
                                       data={this.state.allFollowersChits}
-                                      renderItem={({item}) => <Text style={styles.chitsText}>{item.user.given_name} {item.user.family_name} {"\n"}{item.chit_content} {"\n"}{item.timestamp}</Text>}
+                                      renderItem={({item}) =>
+                                      <View>
+                                      <Text style={styles.chitsText}>{item.user.given_name} {item.user.family_name} {"\n"}{item.chit_content}</Text>
+                                      <Image
+                                      style={{width: 50, height: 50,}}
+                                      source={{uri : "http://10.0.2.2:3333/api/v0.0.5/chits/"+item.chit_id+"/photo" }}
+                                      />
+                                      </View>   }
                                       keyExtractor={({id}, index) => id}
                                       />
                                       </View>
@@ -198,7 +205,11 @@ class HomeScreen extends Component {
                                       <View style={[{flexDirection:'row'}, styles.elementsContainer]}>
                                       <Text style = { styles.characterCount}>{('Characters remaining - ' +( 141 - this.state.chit_content.length))}</Text>
                                       <Button
-                                      title="Post Chit"
+                                      title="Save draft"
+                                      onPress={() =>   this.postChit(token)}
+                                      />
+                                      <Button
+                                      title="Post chit"
                                       onPress={() =>   this.postChit(token)}
                                       />
                                       </View>
@@ -251,6 +262,7 @@ class HomeScreen extends Component {
 
 
                                         },
+
 
                                         characterCount:{
                                           flex: 19,
